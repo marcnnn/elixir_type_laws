@@ -1,14 +1,14 @@
-defmodule Mix.Tasks.ExHdl.Types.Minimize do
+defmodule Mix.Tasks.TypeLaws.Minimize do
   @shortdoc "Minimizes a type-law reproducer on the current Elixir version"
   @moduledoc """
-      mix ex_hdl.types.minimize path/to/finding.exs [--budget 1000]
+      mix type_laws.minimize path/to/finding.exs [--budget 1000]
 
   Reads the `# case:` line written by the law suite, shrinks the types with
-  `ExHdl.Types.Minimize` against the running Elixir version and writes
+  `TypeLaws.Minimize` against the running Elixir version and writes
   `<name>.min.exs` next to the input.
   """
   use Mix.Task
-  alias ExHdl.Types.{Laws, Minimize}
+  alias TypeLaws.{Laws, Minimize}
 
   @requirements ["app.config"]
 

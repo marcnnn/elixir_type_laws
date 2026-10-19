@@ -1,13 +1,13 @@
-defmodule ExHdl.Types.SetAlgebra do
+defmodule TypeLaws.SetAlgebra do
   @moduledoc """
   The interface of a set-theoretic type domain, shaped after Elixir's
   `Module.Types.Descr`.
 
   Implementations:
 
-    * `ExHdl.Types.IntSet` - sets of integers (the domain of the range analysis)
-    * `ExHdl.Types.ElixirDescr` - adapter over Elixir's own type representation
-    * `ExHdl.Types.Refined` - Elixir's types with `integer()` refined to an `IntSet`
+    * `TypeLaws.IntSet` - sets of integers (the domain of the range analysis)
+    * `TypeLaws.ElixirDescr` - adapter over Elixir's own type representation
+    * `TypeLaws.Refined` - Elixir's types with `integer()` refined to an `IntSet`
 
   All of them are checked against the same algebraic laws
   (`test/types/set_laws_test.exs`). Because the suite is generic, it doubles
@@ -19,8 +19,8 @@ defmodule ExHdl.Types.SetAlgebra do
 
   @type t :: term()
 
-  @doc "Builds a leaf of an `ExHdl.Types.Expr` type expression."
-  @callback leaf(ExHdl.Types.Expr.t()) :: t
+  @doc "Builds a leaf of an `TypeLaws.Expr` type expression."
+  @callback leaf(TypeLaws.Expr.t()) :: t
   @callback none() :: t
   @callback term() :: t
   @callback union(t, t) :: t

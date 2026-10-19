@@ -1,6 +1,6 @@
-defmodule ExHdl.Types.Rewrite do
+defmodule TypeLaws.Rewrite do
   @moduledoc """
-  Semantics-preserving rewrites of `ExHdl.Types.Expr` type expressions.
+  Semantics-preserving rewrites of `TypeLaws.Expr` type expressions.
 
   Every rewrite denotes the same set of values, so any algebra must treat
   the result as equal to the input (and give equal results under every

@@ -1,17 +1,17 @@
-defmodule ExHdl.Types.IntSetTest do
+defmodule TypeLaws.IntSetTest do
   use ExUnit.Case, async: true
-  use ExHdl.Test.SetLaws, algebra: ExHdl.Types.IntSet, max_runs: 300
+  use TypeLaws.Test.SetLaws, algebra: TypeLaws.IntSet, max_runs: 300
 
   import Bitwise
-  alias ExHdl.Types.IntSet
-  alias ExHdl.Test.TypeGen
+  alias TypeLaws.IntSet
+  alias TypeLaws.Test.TypeGen
 
   def types, do: TypeGen.int_expr()
   def values, do: TypeGen.int_value()
 
   property "representation is canonical: sorted, disjoint, non-adjacent" do
     check all expr <- types() do
-      set = ExHdl.Types.Expr.build(expr, IntSet)
+      set = TypeLaws.Expr.build(expr, IntSet)
 
       set
       |> Enum.chunk_every(2, 1, :discard)

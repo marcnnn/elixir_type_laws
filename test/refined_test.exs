@@ -1,17 +1,17 @@
-defmodule ExHdl.Types.RefinedTest do
+defmodule TypeLaws.RefinedTest do
   use ExUnit.Case, async: true
   # Must come before `use SetLaws`: tags are captured when tests are defined.
   @moduletag :elixir_types
-  use ExHdl.Test.SetLaws, algebra: ExHdl.Types.Refined, max_runs: 100
+  use TypeLaws.Test.SetLaws, algebra: TypeLaws.Refined, max_runs: 100
 
-  alias ExHdl.Types.{ElixirDescr, IntSet, Refined}
-  alias ExHdl.Test.TypeGen
+  alias TypeLaws.{ElixirDescr, IntSet, Refined}
+  alias TypeLaws.Test.TypeGen
   alias Module.Types.Descr, as: D
 
   def types, do: TypeGen.refined_expr()
   def values, do: TypeGen.value()
 
-  defp build(expr), do: ExHdl.Types.Expr.build(expr, Refined)
+  defp build(expr), do: TypeLaws.Expr.build(expr, Refined)
 
   describe "erasure to plain Elixir types" do
     property "is a union homomorphism" do

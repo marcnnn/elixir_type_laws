@@ -1,4 +1,4 @@
-defmodule ExHdl.Types.Expr do
+defmodule TypeLaws.Expr do
   @moduledoc """
   Version-independent type expressions.
 

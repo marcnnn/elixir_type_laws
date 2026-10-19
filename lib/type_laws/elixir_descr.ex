@@ -1,6 +1,6 @@
-defmodule ExHdl.Types.ElixirDescr do
+defmodule TypeLaws.ElixirDescr do
   @moduledoc """
-  `ExHdl.Types.SetAlgebra` adapter over Elixir's own type representation,
+  `TypeLaws.SetAlgebra` adapter over Elixir's own type representation,
   `Module.Types.Descr`.
 
   `Module.Types.Descr` is compiler-internal and may change between Elixir
@@ -11,7 +11,7 @@ defmodule ExHdl.Types.ElixirDescr do
   (`value_type/1`). Descr cannot tell integers apart, so every integer has
   type `integer()`: in Descr's model all integers are one point.
   """
-  @behaviour ExHdl.Types.SetAlgebra
+  @behaviour TypeLaws.SetAlgebra
 
   alias Module.Types.Descr, as: D
 
@@ -38,7 +38,7 @@ defmodule ExHdl.Types.ElixirDescr do
 
   @impl true
   def leaf({:atom, atoms}), do: D.atom(atoms)
-  def leaf({:tuple, elems}), do: D.tuple(Enum.map(elems, &ExHdl.Types.Expr.build(&1, __MODULE__)))
+  def leaf({:tuple, elems}), do: D.tuple(Enum.map(elems, &TypeLaws.Expr.build(&1, __MODULE__)))
   def leaf({:int, _lo, _hi}), do: D.integer()
 
   def leaf(name) when name in [:integer, :float, :binary, :atom, :empty_list, :none, :term],

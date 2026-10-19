@@ -1,9 +1,9 @@
-defmodule ExHdl.Types.Refined do
+defmodule TypeLaws.Refined do
   @moduledoc """
   Prototype of integer refinement types on top of Elixir's type system.
 
   A type is Elixir's `Module.Types.Descr` with the `integer()` part taken
-  out and replaced by an `ExHdl.Types.IntSet`, so `0..65535`, `-32767..32767`
+  out and replaced by an `TypeLaws.IntSet`, so `0..65535`, `-32767..32767`
   or `non_neg_integer() or -1` are types of their own. Operations work
   componentwise, which is sound because `integer()` is disjoint from every
   other basic type.
@@ -16,9 +16,9 @@ defmodule ExHdl.Types.Refined do
   a sound over-approximation, which is the property an upstream integration
   would have to keep.
   """
-  @behaviour ExHdl.Types.SetAlgebra
+  @behaviour TypeLaws.SetAlgebra
 
-  alias ExHdl.Types.{ElixirDescr, IntSet}
+  alias TypeLaws.{ElixirDescr, IntSet}
   alias Module.Types.Descr, as: D
 
   defstruct [:descr, :int]

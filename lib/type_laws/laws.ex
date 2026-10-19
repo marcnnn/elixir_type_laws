@@ -1,4 +1,4 @@
-defmodule ExHdl.Types.Laws do
+defmodule TypeLaws.Laws do
   @moduledoc """
   The laws of a set-theoretic type algebra, as data.
 
@@ -11,13 +11,13 @@ defmodule ExHdl.Types.Laws do
       t    := :a | :b | :c | :term | :none
             | {:union, t, t} | {:intersection, t, t} | {:difference, t, t} | {:negation, t}
 
-  The same proposition is evaluated against any `ExHdl.Types.SetAlgebra`
+  The same proposition is evaluated against any `TypeLaws.SetAlgebra`
   (`holds?/4`) and printed as a standalone Elixir reproducer
   (`reproducer/5`), so a failing case can be replayed on any Elixir release
   or attached to an upstream issue.
   """
 
-  alias ExHdl.Types.Expr
+  alias TypeLaws.Expr
 
   @laws [
     union_commutative: {:equal, {:union, :a, :b}, {:union, :b, :a}},
@@ -61,7 +61,7 @@ defmodule ExHdl.Types.Laws do
   ]
 
   # Congruence: `:b` is generated as a semantically equal rewrite of `:a`
-  # (see `ExHdl.Types.Rewrite`), so every operation must agree on both.
+  # (see `TypeLaws.Rewrite`), so every operation must agree on both.
   @congruence [
     congruence_equal: {:equal, :a, :b},
     congruence_union: {:equal, {:union, :a, :c}, {:union, :b, :c}},
@@ -92,12 +92,12 @@ defmodule ExHdl.Types.Laws do
 
   @doc """
   Fills in `:b` for congruence cases: `env.rewrite` is a list of
-  `{path, rule, x}` steps (`ExHdl.Types.Rewrite`) applied to `env.a`.
+  `{path, rule, x}` steps (`TypeLaws.Rewrite`) applied to `env.a`.
   """
   def materialize(%{rewrite: steps, a: a} = env) do
     b =
       Enum.reduce(steps, a, fn {path, rule, x}, e ->
-        ExHdl.Types.Rewrite.apply_at(e, path, rule, x)
+        TypeLaws.Rewrite.apply_at(e, path, rule, x)
       end)
 
     env |> Map.delete(:rewrite) |> Map.put(:b, b)
@@ -133,12 +133,12 @@ defmodule ExHdl.Types.Laws do
 
   @doc """
   A standalone Elixir script that rebuilds the types, evaluates the law and
-  prints result and time. For `ExHdl.Types.ElixirDescr` it only depends on
+  prints result and time. For `TypeLaws.ElixirDescr` it only depends on
   `Module.Types.Descr` (run with `elixir file.exs`); for other algebras it
   needs this project (`mix run file.exs`).
   """
   def reproducer(name, prop, alg, env, note) do
-    mode = if alg == ExHdl.Types.ElixirDescr, do: :descr, else: :alg
+    mode = if alg == TypeLaws.ElixirDescr, do: :descr, else: :alg
     p = if mode == :descr, do: "D", else: "alg"
 
     bindings =
@@ -193,7 +193,7 @@ defmodule ExHdl.Types.Laws do
   defp prop_code({:empty, t}, p, _m), do: "#{p}.empty?(#{term_code(t, p)})"
 
   defp prop_code({:member, t, :v}, "D", :descr),
-    do: "D.subtype?(ExHdlValueType.of(v), #{term_code(t, "D")})"
+    do: "D.subtype?(TypeLawsValueType.of(v), #{term_code(t, "D")})"
 
   defp prop_code({:member, t, :v}, p, _m), do: "#{p}.member?(#{term_code(t, p)}, v)"
   defp prop_code({:and, a, b}, p, m), do: "(#{prop_code(a, p, m)} and #{prop_code(b, p, m)})"
@@ -212,7 +212,7 @@ defmodule ExHdl.Types.Laws do
 
   defp value_type_helper do
     """
-    defmodule ExHdlValueType do
+    defmodule TypeLawsValueType do
       alias Module.Types.Descr, as: D
       def of(v) when is_integer(v), do: D.integer()
       def of(v) when is_float(v), do: D.float()

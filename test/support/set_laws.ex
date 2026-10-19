@@ -1,17 +1,17 @@
-defmodule ExHdl.Test.SetLaws do
+defmodule TypeLaws.Test.SetLaws do
   @moduledoc """
-  Turns `ExHdl.Types.Laws` into properties for one algebra:
+  Turns `TypeLaws.Laws` into properties for one algebra:
 
-      use ExHdl.Test.SetLaws, algebra: MyAlgebra, max_runs: 100, budget_ms: 1_000
+      use TypeLaws.Test.SetLaws, algebra: MyAlgebra, max_runs: 100, budget_ms: 1_000
 
-  The using module defines `types/0` (generator of `ExHdl.Types.Expr`) and
+  The using module defines `types/0` (generator of `TypeLaws.Expr`) and
   `values/0`. A law fails if it does not hold or if evaluating it exceeds
   the time budget. StreamData shrinks the failing case, and the minimal one
   is written as a standalone script to `_build/<env>/type_findings/`.
   """
   use ExUnitProperties
   import ExUnit.Assertions
-  alias ExHdl.Types.Laws
+  alias TypeLaws.Laws
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
@@ -23,11 +23,11 @@ defmodule ExHdl.Test.SetLaws do
       @budget Keyword.get(opts, :budget_ms, 1_000)
       @moduletag timeout: 600_000
 
-      for {name, prop} <- ExHdl.Types.Laws.all() do
+      for {name, prop} <- TypeLaws.Laws.all() do
         @law_name name
         @law prop
         property "law #{name}" do
-          ExHdl.Test.SetLaws.check_law(
+          TypeLaws.Test.SetLaws.check_law(
             @alg,
             @law_name,
             @law,
@@ -52,7 +52,7 @@ defmodule ExHdl.Test.SetLaws do
         # :b is a semantics-preserving rewrite of :a.
         gens
         |> Map.delete(:b)
-        |> Map.put(:rewrite, ExHdl.Test.TypeGen.rewrites(types))
+        |> Map.put(:rewrite, TypeLaws.Test.TypeGen.rewrites(types))
         |> fixed_map()
       else
         fixed_map(gens)

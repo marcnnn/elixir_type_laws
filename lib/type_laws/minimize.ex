@@ -1,4 +1,4 @@
-defmodule ExHdl.Types.Minimize do
+defmodule TypeLaws.Minimize do
   @moduledoc """
   Delta debugging for law violations.
 
@@ -9,7 +9,7 @@ defmodule ExHdl.Types.Minimize do
   release is minimized against that release's `Module.Types.Descr`.
   """
 
-  alias ExHdl.Types.Laws
+  alias TypeLaws.Laws
 
   @leaf_rank %{none: 0, term: 1, integer: 2, atom: 3, binary: 4, float: 5, empty_list: 6}
 

@@ -1,9 +1,9 @@
-defmodule ExHdl.Test.TypeGen do
+defmodule TypeLaws.Test.TypeGen do
   @moduledoc false
-  # Generators of ExHdl.Types.Expr type expressions and of values.
+  # Generators of TypeLaws.Expr type expressions and of values.
   use ExUnitProperties
 
-  alias ExHdl.Types.IntSet
+  alias TypeLaws.IntSet
 
   # Type expressions up to LAW_DEPTH levels of operations (default 4).
   # `leaf` is a function of the remaining depth so tuples can nest.
@@ -77,7 +77,7 @@ defmodule ExHdl.Test.TypeGen do
 
   @doc "1 to 4 semantics-preserving rewrite steps `{path, rule, x}`."
   def rewrites(types) do
-    rule = integer(0..(ExHdl.Types.Rewrite.rule_count() - 1))
+    rule = integer(0..(TypeLaws.Rewrite.rule_count() - 1))
     step = {list_of(integer(0..3), max_length: 6), rule, types}
     list_of(step, min_length: 1, max_length: 4)
   end
