@@ -40,3 +40,7 @@ mix type_laws.minimize _build/test/type_findings/elixir_descr_double_negation.ex
 
 `LAW_DEPTH` (default 4) bounds the nesting of generated types; at 6 they
 average about 70 nodes.
+
+## License
+
+Apache-2.0, see `LICENSE`.

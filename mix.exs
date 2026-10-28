@@ -9,7 +9,8 @@ defmodule TypeLaws.MixProject do
       description: "Set-theoretic laws as data, checked against Elixir's type system",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      package: [licenses: ["Apache-2.0"]]
     ]
   end
 
